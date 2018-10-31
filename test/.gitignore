@@ -1,0 +1,6 @@
+package-set.json
+.psc-package
+.psc-package2nix
+src
+test
+output

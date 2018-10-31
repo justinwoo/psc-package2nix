@@ -1,0 +1,117 @@
+#!/usr/bin/env perl
+
+use warnings;
+use strict;
+use feature 'say';
+
+my $dir = ".psc-package2nix";
+my $config = 'psc-package.json';
+
+my $derivation_template = <<END;
+    DEP = pkgs.stdenv.mkDerivation {
+      name = NAME;
+      version = VERSION;
+      src = pkgs.fetchgit {
+        url = REPO;
+        rev = REV;
+        sha256 = HASH;
+      };
+      dontInstall = true;
+      buildPhase = "cp -r \$src \$out";
+    };
+END
+
+my $file_template = <<END;
+{ pkgs ? import <nixpkgs> {} }:
+
+let
+  inputs = {
+DERIVATIONS
+  };
+
+in {
+  inherit inputs;
+
+  set = SET;
+  source = SOURCE;
+}
+END
+
+print `mkdir -p $dir`;
+
+my $source = `jq '.source' psc-package.json -r`;
+my $set = `jq '.set' psc-package.json -r`;
+chomp($source);
+chomp($set);
+
+my $json = ".psc-package/$set/.set/packages.json";
+
+unless (-e $json) {
+    print `git clone -c advice.detachedHead=false --branch $set --depth 1 $source .psc-package/$set/.set`;
+
+    if ($? != 0) {
+        die "Error on downloading package set";
+    }
+}
+
+my @direct_deps = `jq '.depends | values[]' $config`;
+my %visited = ();
+sub getDeps {
+    my ($name) = @_;
+    chomp($name);
+    if ($visited{$name}) {
+        return;
+    }
+    $visited{$name} = 1;
+    my @transitive_deps = `jq '.${name}.dependencies | values[]' $json`;
+    foreach my $target (@transitive_deps) {
+        getDeps($target);
+    }
+}
+foreach my $target (@direct_deps) {
+    getDeps($target);
+}
+
+my @deps = sort keys %visited;
+
+my %targets = ();
+my $derivations = "";
+
+foreach my $dep (@deps) {
+  $dep =~ s/"//g;
+  my $version = `jq '.$dep.version' $json -r`;
+  chomp($version);
+  my $repo = `jq '.$dep.repo' $json -r`;
+  chomp($repo);
+  my $target = "$dir/$dep-$version";
+
+  unless (-e $target) {
+    say "fetching $target";
+    print `nix-prefetch-git $repo --rev $version --quiet | jq '.sha256' -r > $target`;
+  }
+
+  my $hash = `cat $target`;
+  chomp($hash);
+
+  my $derivation = $derivation_template;
+  $derivation =~ s/DEP/$dep/;
+  $derivation =~ s/NAME/"$dep"/;
+  $derivation =~ s/VERSION/"$version"/;
+  $derivation =~ s/REPO/"$repo"/;
+  $derivation =~ s/REV/"$version"/;
+  $derivation =~ s/HASH/"$hash"/;
+
+  $derivations .= $derivation;
+}
+
+my $file = $file_template;
+$file =~ s/DERIVATIONS/$derivations/;
+$file =~ s/SET/"$set"/;
+$file =~ s/SOURCE/"$source"/;
+
+my $filename = 'packages.nix';
+open(my $fh, '>', $filename) or die "Could not get file handle for $filename";
+print $fh $file;
+close $fh;
+
+say "wrote $filename";
