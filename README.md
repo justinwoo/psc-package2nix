@@ -70,3 +70,7 @@ Of course, you might use the full power of the Nix language to tweak this to fit
 ## More Information
 
 If you need more information on how Psc-Package works, you might see the Spacchetti guide page here: <https://spacchetti.readthedocs.io/en/latest/intro.html>
+
+## Complaints
+
+PRs welcome
