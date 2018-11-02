@@ -18,7 +18,7 @@ my $derivation_template = <<END;
         sha256 = HASH;
       };
       dontInstall = true;
-      buildPhase = "cp -r \$src \$out";
+      buildPhase = "cp --no-preserve=mode,ownership,timestamp -r \$src \$out";
     };
 END
 
