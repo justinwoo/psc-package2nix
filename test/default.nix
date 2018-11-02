@@ -15,27 +15,15 @@ let
     sha256 = "0lrw2k1gm4aamnlxi16syibyqi7i3nvx9bwzq889vd1p0sbzxs9x";
   }) {};
 
-  packages = import ./packages.nix {};
-  packageDrvs = builtins.attrValues packages.inputs;
-
-  copyCmds = map (x: let target = ".psc-package/${packages.set}/${x.name}/${x.version}"; in ''
-    mkdir -p ${target}
-    cp --no-preserve=mode,ownership,timestamp -r ${toString x.outPath}/* ${target}
-  '') packageDrvs;
-
 in pkgs.stdenv.mkDerivation {
   name = "test";
   src = ./.;
 
   buildInputs
-    = packageDrvs
-    ++ [
+    = [
       easy-ps.inputs.purs
       easy-ps.inputs.psc-package-simple
       psc-package2nix
     ];
 
-  shellHook = ''
-    mkdir -p .psc-package
-  '' + toString copyCmds;
 }
