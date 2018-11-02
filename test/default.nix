@@ -21,6 +21,8 @@ in pkgs.stdenv.mkDerivation {
 
   buildInputs
     = [
+      pkgs.jq
+      pkgs.nix-prefetch-git
       easy-ps.inputs.purs
       easy-ps.inputs.psc-package-simple
       psc-package2nix
