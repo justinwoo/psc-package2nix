@@ -1,5 +1,7 @@
 # Psc-Package2Nix
 
+[![Build Status](https://travis-ci.com/justinwoo/psc-package2nix.svg?branch=master)](https://travis-ci.com/justinwoo/psc-package2nix)
+
 Tool to derive a Nix expression from a `psc-package.json` configuration.
 
 Prefetches Git SHA of the total dependencies you depend on.
