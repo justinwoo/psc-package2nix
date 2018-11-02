@@ -4,24 +4,7 @@
   "source": "https://github.com/justinwoo/spacchetti.git",
   "depends": [
     "aff",
-    "bifunctors",
     "console",
-    "css",
-    "debug",
-    "gomtang-basic",
-    "halogen",
-    "halogen-css",
-    "jajanmen",
-    "lenient-html-parser",
-    "makkori",
-    "milkis",
-    "naporitan",
-    "node-child-process",
-    "node-fs-aff",
-    "node-process",
-    "node-sqlite3",
-    "now",
-    "numbers",
     "prelude"
   ]
 }

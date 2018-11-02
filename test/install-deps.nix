@@ -13,7 +13,7 @@ in pkgs.stdenv.mkDerivation {
   name = "install-deps";
   src = ./.;
 
-  shellHook = ''
-    mkdir -p .psc-package
-  '' + toString copyCmds;
+  buildInputs = packageDrvs;
+
+  shellHook = toString copyCmds;
 }
