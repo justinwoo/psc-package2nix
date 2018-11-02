@@ -77,11 +77,11 @@ my @deps = sort keys %visited;
 my %targets = ();
 my $derivations = "";
 
-foreach my $dep (@deps) {
-  $dep =~ s/"//g;
-  my $version = `jq '.$dep.version' $json -r`;
+foreach my $depQuoted (@deps) {
+  (my $dep = $depQuoted) =~ s/"//g;
+  my $version = `jq '.$depQuoted.version' $json -r`;
   chomp($version);
-  my $repo = `jq '.$dep.repo' $json -r`;
+  my $repo = `jq '.$depQuoted.repo' $json -r`;
   chomp($repo);
   my $target = "$dir/$dep-$version";
 
