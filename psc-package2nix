@@ -8,6 +8,7 @@ my $dir = ".psc-package2nix";
 my $config = 'psc-package.json';
 
 my $derivation_template = <<END;
+
     DEP = pkgs.stdenv.mkDerivation {
       name = NAME;
       version = VERSION;
@@ -26,8 +27,7 @@ my $file_template = <<END;
 
 let
   inputs = {
-DERIVATIONS
-  };
+DERIVATIONS};
 
 in {
   inherit inputs;
@@ -39,10 +39,8 @@ END
 
 print `mkdir -p $dir`;
 
-my $source = `jq '.source' psc-package.json -r`;
-my $set = `jq '.set' psc-package.json -r`;
-chomp($source);
-chomp($set);
+chomp(my $source = `jq '.source' psc-package.json -r`);
+chomp(my $set = `jq '.set' psc-package.json -r`);
 
 my $json = ".psc-package/$set/.set/packages.json";
 
@@ -75,23 +73,54 @@ foreach my $target (@direct_deps) {
 my @deps = sort keys %visited;
 
 my %targets = ();
-my $derivations = "";
+my %versions = ();
+my %repos = ();
+my @pids;
 
+# ensure I have my hashes downloaded
 foreach my $depQuoted (@deps) {
   (my $dep = $depQuoted) =~ s/"//g;
-  my $version = `jq '.$depQuoted.version' $json -r`;
-  chomp($version);
-  my $repo = `jq '.$depQuoted.repo' $json -r`;
-  chomp($repo);
+  chomp(my $version = `jq '.$depQuoted.version' $json -r`);
+  chomp(my $repo = `jq '.$depQuoted.repo' $json -r`);
   my $target = "$dir/$dep-$version";
 
-  unless (-e $target) {
-    say "fetching $target";
-    print `nix-prefetch-git $repo --rev $version --quiet | jq '.sha256' -r > $target`;
-  }
+  $versions{$dep} = $version;
+  $targets{$dep} = $target;
+  $repos{$dep} = $repo;
 
-  my $hash = `cat $target`;
-  chomp($hash);
+  unless (-e $target) {
+    my $pid = fork;
+    if (not defined $pid) {
+        die "Couldn't fork new child processes\n";
+    } elsif ($pid == 0) {
+        say "fetching $target";
+        print `nix-prefetch-git $repo --rev $version --quiet | jq '.sha256' -r > $target`;
+
+        if ($? != 0) {
+            die "Nix-Prefetch-Git failed at $target";
+        } else {
+            exit;
+        }
+    } else {
+        push @pids, $pid;
+    }
+  }
+}
+
+for my $pid (@pids) {
+    waitpid $pid, 0;
+}
+
+my $derivations = "";
+
+# build up my derivations
+foreach my $depQuoted (@deps) {
+  (my $dep = $depQuoted) =~ s/"//g;
+  my $version = $versions{$dep};
+  my $target = $targets{$dep};
+  my $repo = $repos{$dep};
+
+  chomp(my $hash = `cat $target`);
 
   my $derivation = $derivation_template;
   $derivation =~ s/DEP/$dep/;
