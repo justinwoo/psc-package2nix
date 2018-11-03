@@ -6,6 +6,8 @@ Tool to derive a Nix expression from a `psc-package.json` configuration.
 
 Prefetches Git SHA of the total dependencies you depend on.
 
+Read the blog post about this project here: <https://qiita.com/kimagure/items/85a64437f9af78398638>
+
 ## Usage example
 
 ### `default.nix`
