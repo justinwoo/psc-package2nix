@@ -18,7 +18,10 @@ my $derivation_template = <<END;
         sha256 = HASH;
       };
       dontInstall = true;
-      buildPhase = "cp --no-preserve=mode,ownership,timestamp -r \$src \$out";
+      buildPhase = ''
+        cp -r \$src \$out
+        rm -rf \$out/.git
+      '';
     };
 END
 
@@ -45,7 +48,8 @@ chomp(my $set = `jq '.set' psc-package.json -r`);
 my $json = ".psc-package/$set/.set/packages.json";
 
 unless (-e $json) {
-    print `git clone -c advice.detachedHead=false --branch $set --depth 1 $source .psc-package/$set/.set`;
+    my $dest = ".psc-package/$set/.set";
+    print `git clone -c advice.detachedHead=false --branch $set --depth 1 $source $dest && rm -rf $dest/.git`;
 
     if ($? != 0) {
         die "Error on downloading package set";
