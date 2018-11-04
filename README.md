@@ -69,13 +69,11 @@ let
   # these are the package derivations we will want to work with
   packageDrvs = builtins.attrValues packages.inputs;
 
-  # these are the copy commands for copying our dependencies from the nix store
-  # this means that if we have overlapping packages between sets or between projects,
-  # they come from the same source!
-  copyCmds = map (x: let target = ".psc-package/${packages.set}/${x.name}/${x.version}"; in ''
-    mkdir -p ${target}
-    cp --no-preserve=mode,ownership,timestamp -r ${toString x.outPath}/* ${target}
-  '') packageDrvs;
+  # get the utilities defined in utils.nix in this repo for getting a default shell hook to copy dependencies
+  pp2n-utils = import pkgs.fetchurl {
+    url = "https://raw.githubusercontent.com/justinwoo/psc-package2nix/fab30e8f9abbaf5fd8b009172473852b64531ebe/utils.nix";
+    sha = "0rkqisfvpz5x8j2p0llv0yzgz5vnzy7fcfalp8nkymbshk8702gg";
+  };
 
 in pkgs.stdenv.mkDerivation {
   name = "install-deps";
@@ -85,7 +83,7 @@ in pkgs.stdenv.mkDerivation {
   buildInputs = packageDrvs;
 
   # when the shell starts, we can run these commands to copy over our dependencies.
-  shellHook = toString copyCmds;
+  shellHook = pp2n-utils.mkDefaultShellHook packages packageDrvs;
 }
 ```
 
