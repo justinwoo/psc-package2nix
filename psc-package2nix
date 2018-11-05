@@ -7,7 +7,7 @@ use feature 'say';
 my $dir = ".psc-package2nix";
 my $config = 'psc-package.json';
 
-my $derivation_template = <<END;
+my $derivation_template = <<"END";
 
     DEP = pkgs.stdenv.mkDerivation {
       name = NAME;
@@ -61,14 +61,18 @@ my %visited = ();
 sub getDeps {
     my ($name) = @_;
     chomp($name);
+
     if ($visited{$name}) {
         return;
     }
+
     $visited{$name} = 1;
     my @transitive_deps = `jq '.${name}.dependencies | values[]' $json`;
     foreach my $target (@transitive_deps) {
         getDeps($target);
     }
+
+    return;
 }
 foreach my $target (@direct_deps) {
     getDeps($target);
