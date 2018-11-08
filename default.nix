@@ -5,8 +5,20 @@ pkgs.stdenv.mkDerivation {
 
   src = ./.;
 
+  buildInputs = [
+    pkgs.makeWrapper
+  ];
+
   installPhase = ''
-    mkdir -p $out/bin
-    cp psc-package2nix $out/bin
+    install -D -m555 -t $out/bin psc-package2nix
+
+    wrapProgram $out/bin/psc-package2nix \
+      --prefix PATH : ${pkgs.lib.makeBinPath [
+        pkgs.coreutils
+        pkgs.perl
+        pkgs.git
+        pkgs.jq
+        pkgs.nix-prefetch-git
+      ]}
   '';
 }
