@@ -4,6 +4,7 @@
   "source": "https://github.com/justinwoo/spacchetti.git",
   "depends": [
     "aff",
+    "assert",
     "console",
     "prelude"
   ]

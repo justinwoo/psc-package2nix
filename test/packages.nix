@@ -3,7 +3,7 @@
 let
   inputs = {
 
-    aff = pkgs.stdenv.mkDerivation {
+    "aff" = pkgs.stdenv.mkDerivation {
       name = "aff";
       version = "v5.0.2";
       src = pkgs.fetchgit {
@@ -18,7 +18,7 @@ let
       '';
     };
 
-    arrays = pkgs.stdenv.mkDerivation {
+    "arrays" = pkgs.stdenv.mkDerivation {
       name = "arrays";
       version = "v5.1.0";
       src = pkgs.fetchgit {
@@ -33,7 +33,22 @@ let
       '';
     };
 
-    bifunctors = pkgs.stdenv.mkDerivation {
+    "assert" = pkgs.stdenv.mkDerivation {
+      name = "assert";
+      version = "v4.0.0";
+      src = pkgs.fetchgit {
+        url = "https://github.com/purescript/purescript-assert.git";
+        rev = "v4.0.0";
+        sha256 = "1bg60rx1r2kc41vzpp420v5gnl6njgqna4h6qcyr3zh1rrzj965l";
+      };
+      dontInstall = true;
+      buildPhase = ''
+        cp -r $src $out
+        rm -rf $out/.git
+      '';
+    };
+
+    "bifunctors" = pkgs.stdenv.mkDerivation {
       name = "bifunctors";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -48,7 +63,7 @@ let
       '';
     };
 
-    console = pkgs.stdenv.mkDerivation {
+    "console" = pkgs.stdenv.mkDerivation {
       name = "console";
       version = "v4.1.0";
       src = pkgs.fetchgit {
@@ -63,7 +78,7 @@ let
       '';
     };
 
-    const = pkgs.stdenv.mkDerivation {
+    "const" = pkgs.stdenv.mkDerivation {
       name = "const";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -78,7 +93,7 @@ let
       '';
     };
 
-    contravariant = pkgs.stdenv.mkDerivation {
+    "contravariant" = pkgs.stdenv.mkDerivation {
       name = "contravariant";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -93,7 +108,7 @@ let
       '';
     };
 
-    control = pkgs.stdenv.mkDerivation {
+    "control" = pkgs.stdenv.mkDerivation {
       name = "control";
       version = "v4.1.0";
       src = pkgs.fetchgit {
@@ -108,7 +123,7 @@ let
       '';
     };
 
-    datetime = pkgs.stdenv.mkDerivation {
+    "datetime" = pkgs.stdenv.mkDerivation {
       name = "datetime";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -123,7 +138,7 @@ let
       '';
     };
 
-    distributive = pkgs.stdenv.mkDerivation {
+    "distributive" = pkgs.stdenv.mkDerivation {
       name = "distributive";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -138,7 +153,7 @@ let
       '';
     };
 
-    effect = pkgs.stdenv.mkDerivation {
+    "effect" = pkgs.stdenv.mkDerivation {
       name = "effect";
       version = "v2.0.0";
       src = pkgs.fetchgit {
@@ -153,7 +168,7 @@ let
       '';
     };
 
-    either = pkgs.stdenv.mkDerivation {
+    "either" = pkgs.stdenv.mkDerivation {
       name = "either";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -168,7 +183,7 @@ let
       '';
     };
 
-    enums = pkgs.stdenv.mkDerivation {
+    "enums" = pkgs.stdenv.mkDerivation {
       name = "enums";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -183,7 +198,7 @@ let
       '';
     };
 
-    exceptions = pkgs.stdenv.mkDerivation {
+    "exceptions" = pkgs.stdenv.mkDerivation {
       name = "exceptions";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -198,7 +213,7 @@ let
       '';
     };
 
-    foldable-traversable = pkgs.stdenv.mkDerivation {
+    "foldable-traversable" = pkgs.stdenv.mkDerivation {
       name = "foldable-traversable";
       version = "v4.1.0";
       src = pkgs.fetchgit {
@@ -213,7 +228,7 @@ let
       '';
     };
 
-    functions = pkgs.stdenv.mkDerivation {
+    "functions" = pkgs.stdenv.mkDerivation {
       name = "functions";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -228,7 +243,7 @@ let
       '';
     };
 
-    functors = pkgs.stdenv.mkDerivation {
+    "functors" = pkgs.stdenv.mkDerivation {
       name = "functors";
       version = "v3.1.0";
       src = pkgs.fetchgit {
@@ -243,7 +258,7 @@ let
       '';
     };
 
-    gen = pkgs.stdenv.mkDerivation {
+    "gen" = pkgs.stdenv.mkDerivation {
       name = "gen";
       version = "v2.1.0";
       src = pkgs.fetchgit {
@@ -258,7 +273,7 @@ let
       '';
     };
 
-    globals = pkgs.stdenv.mkDerivation {
+    "globals" = pkgs.stdenv.mkDerivation {
       name = "globals";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -273,7 +288,7 @@ let
       '';
     };
 
-    identity = pkgs.stdenv.mkDerivation {
+    "identity" = pkgs.stdenv.mkDerivation {
       name = "identity";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -288,7 +303,7 @@ let
       '';
     };
 
-    integers = pkgs.stdenv.mkDerivation {
+    "integers" = pkgs.stdenv.mkDerivation {
       name = "integers";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -303,7 +318,7 @@ let
       '';
     };
 
-    invariant = pkgs.stdenv.mkDerivation {
+    "invariant" = pkgs.stdenv.mkDerivation {
       name = "invariant";
       version = "v4.1.0";
       src = pkgs.fetchgit {
@@ -318,7 +333,7 @@ let
       '';
     };
 
-    lazy = pkgs.stdenv.mkDerivation {
+    "lazy" = pkgs.stdenv.mkDerivation {
       name = "lazy";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -333,7 +348,7 @@ let
       '';
     };
 
-    lists = pkgs.stdenv.mkDerivation {
+    "lists" = pkgs.stdenv.mkDerivation {
       name = "lists";
       version = "v5.3.0";
       src = pkgs.fetchgit {
@@ -348,7 +363,7 @@ let
       '';
     };
 
-    math = pkgs.stdenv.mkDerivation {
+    "math" = pkgs.stdenv.mkDerivation {
       name = "math";
       version = "v2.1.1";
       src = pkgs.fetchgit {
@@ -363,7 +378,7 @@ let
       '';
     };
 
-    maybe = pkgs.stdenv.mkDerivation {
+    "maybe" = pkgs.stdenv.mkDerivation {
       name = "maybe";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -378,7 +393,7 @@ let
       '';
     };
 
-    newtype = pkgs.stdenv.mkDerivation {
+    "newtype" = pkgs.stdenv.mkDerivation {
       name = "newtype";
       version = "v3.0.0";
       src = pkgs.fetchgit {
@@ -393,7 +408,7 @@ let
       '';
     };
 
-    nonempty = pkgs.stdenv.mkDerivation {
+    "nonempty" = pkgs.stdenv.mkDerivation {
       name = "nonempty";
       version = "v5.0.0";
       src = pkgs.fetchgit {
@@ -408,7 +423,7 @@ let
       '';
     };
 
-    ordered-collections = pkgs.stdenv.mkDerivation {
+    "ordered-collections" = pkgs.stdenv.mkDerivation {
       name = "ordered-collections";
       version = "v1.4.0";
       src = pkgs.fetchgit {
@@ -423,7 +438,7 @@ let
       '';
     };
 
-    orders = pkgs.stdenv.mkDerivation {
+    "orders" = pkgs.stdenv.mkDerivation {
       name = "orders";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -438,7 +453,7 @@ let
       '';
     };
 
-    parallel = pkgs.stdenv.mkDerivation {
+    "parallel" = pkgs.stdenv.mkDerivation {
       name = "parallel";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -453,7 +468,7 @@ let
       '';
     };
 
-    partial = pkgs.stdenv.mkDerivation {
+    "partial" = pkgs.stdenv.mkDerivation {
       name = "partial";
       version = "v2.0.0";
       src = pkgs.fetchgit {
@@ -468,7 +483,7 @@ let
       '';
     };
 
-    prelude = pkgs.stdenv.mkDerivation {
+    "prelude" = pkgs.stdenv.mkDerivation {
       name = "prelude";
       version = "v4.1.0";
       src = pkgs.fetchgit {
@@ -483,7 +498,7 @@ let
       '';
     };
 
-    refs = pkgs.stdenv.mkDerivation {
+    "refs" = pkgs.stdenv.mkDerivation {
       name = "refs";
       version = "v4.1.0";
       src = pkgs.fetchgit {
@@ -498,7 +513,7 @@ let
       '';
     };
 
-    st = pkgs.stdenv.mkDerivation {
+    "st" = pkgs.stdenv.mkDerivation {
       name = "st";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -513,7 +528,7 @@ let
       '';
     };
 
-    tailrec = pkgs.stdenv.mkDerivation {
+    "tailrec" = pkgs.stdenv.mkDerivation {
       name = "tailrec";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -528,7 +543,7 @@ let
       '';
     };
 
-    transformers = pkgs.stdenv.mkDerivation {
+    "transformers" = pkgs.stdenv.mkDerivation {
       name = "transformers";
       version = "v4.1.0";
       src = pkgs.fetchgit {
@@ -543,7 +558,7 @@ let
       '';
     };
 
-    tuples = pkgs.stdenv.mkDerivation {
+    "tuples" = pkgs.stdenv.mkDerivation {
       name = "tuples";
       version = "v5.0.0";
       src = pkgs.fetchgit {
@@ -558,7 +573,7 @@ let
       '';
     };
 
-    type-equality = pkgs.stdenv.mkDerivation {
+    "type-equality" = pkgs.stdenv.mkDerivation {
       name = "type-equality";
       version = "v3.0.0";
       src = pkgs.fetchgit {
@@ -573,7 +588,7 @@ let
       '';
     };
 
-    unfoldable = pkgs.stdenv.mkDerivation {
+    "unfoldable" = pkgs.stdenv.mkDerivation {
       name = "unfoldable";
       version = "v4.0.0";
       src = pkgs.fetchgit {
@@ -588,7 +603,7 @@ let
       '';
     };
 
-    unsafe-coerce = pkgs.stdenv.mkDerivation {
+    "unsafe-coerce" = pkgs.stdenv.mkDerivation {
       name = "unsafe-coerce";
       version = "v4.0.0";
       src = pkgs.fetchgit {
