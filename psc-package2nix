@@ -9,7 +9,7 @@ my $config = 'psc-package.json';
 
 my $derivation_template = <<"END";
 
-    DEP = pkgs.stdenv.mkDerivation {
+    "DEP" = pkgs.stdenv.mkDerivation {
       name = NAME;
       version = VERSION;
       src = pkgs.fetchgit {
