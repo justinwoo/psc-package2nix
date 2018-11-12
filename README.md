@@ -8,6 +8,8 @@ Prefetches Git SHA of the total dependencies you depend on.
 
 Read the blog post about this project here: <https://qiita.com/kimagure/items/85a64437f9af78398638>
 
+There's also a post about this whole setup (going from Bower): <https://qiita.com/kimagure/items/aec640d0047d08d2ce90>
+
 ## Usage example
 
 ### `default.nix`
