@@ -3,6 +3,9 @@
 use warnings;
 use strict;
 use feature 'say';
+use FindBin qw($RealBin);
+use lib "$RealBin/lib";
+use GetDeps;
 
 my $dir = ".psc-package2nix";
 my $config = 'psc-package.json';
@@ -61,29 +64,7 @@ unless (-e $json) {
     }
 }
 
-my @direct_deps = `jq '.depends | values[]' $config`;
-my %visited = ();
-sub getDeps {
-    my ($name) = @_;
-    chomp($name);
-
-    if ($visited{$name}) {
-        return;
-    }
-
-    $visited{$name} = 1;
-    my @transitive_deps = `jq '.${name}.dependencies | values[]' $json`;
-    foreach my $target (@transitive_deps) {
-        getDeps($target);
-    }
-
-    return;
-}
-foreach my $target (@direct_deps) {
-    getDeps($target);
-}
-
-my @deps = sort keys %visited;
+my @deps = GetDeps::getDeps($config, $json);
 
 my %targets = ();
 my %versions = ();
