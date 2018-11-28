@@ -3,9 +3,6 @@
   "set": "241018",
   "source": "https://github.com/justinwoo/spacchetti.git",
   "depends": [
-    "aff",
-    "assert",
-    "console",
-    "prelude"
+    "console"
   ]
 }
