@@ -10,6 +10,8 @@ pkgs.stdenv.mkDerivation {
   ];
 
   installPhase = ''
+    mkdir -p $out/bin/lib
+    cp -r $src/lib $out/bin
     install -D -m555 -t $out/bin psc-package2nix
 
     wrapProgram $out/bin/psc-package2nix \
