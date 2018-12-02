@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "set": "241018",
+  "set": "30112018",
   "source": "https://github.com/justinwoo/spacchetti.git",
   "depends": [
     "aff",

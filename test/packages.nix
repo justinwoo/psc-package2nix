@@ -70,11 +70,11 @@ let
 
     "console" = pkgs.stdenv.mkDerivation {
       name = "console";
-      version = "v4.1.0";
+      version = "v4.2.0";
       src = pkgs.fetchgit {
         url = "https://github.com/purescript/purescript-console.git";
-        rev = "v4.1.0";
-        sha256 = "1rc9b53q0l7g37113nspdcxcysg19wfq0l9d84gys8dp3q9n8vbf";
+        rev = "v4.2.0";
+        sha256 = "1b2nykdq1dzaqyra5pi8cvvz4dsbbkg57a2c88yi931ynm19nnw6";
       };
       dontInstall = true;
       buildPhase = ''
@@ -85,11 +85,11 @@ let
 
     "const" = pkgs.stdenv.mkDerivation {
       name = "const";
-      version = "v4.0.0";
+      version = "v4.1.0";
       src = pkgs.fetchgit {
         url = "https://github.com/purescript/purescript-const.git";
-        rev = "v4.0.0";
-        sha256 = "1fzj2zak5a59lxg7vhxsp24hqydhxs8iq89rbl7qm4zcqb0lvw70";
+        rev = "v4.1.0";
+        sha256 = "0qbd2aisax52yw6sybdhs7na943cbsd6mylhhgsamrf7hzh6v51p";
       };
       dontInstall = true;
       buildPhase = ''
@@ -130,11 +130,11 @@ let
 
     "datetime" = pkgs.stdenv.mkDerivation {
       name = "datetime";
-      version = "v4.0.0";
+      version = "v4.1.0";
       src = pkgs.fetchgit {
         url = "https://github.com/purescript/purescript-datetime.git";
-        rev = "v4.0.0";
-        sha256 = "0zpjpnsnn95cscc95p9p59g7fvcc4qcl5yjmlrkjln4swi62jggd";
+        rev = "v4.1.0";
+        sha256 = "1r998l57p8q5sj74kdb3hdhd3asb596ipgjqhyz2i2v4yiazfriv";
       };
       dontInstall = true;
       buildPhase = ''
@@ -175,11 +175,11 @@ let
 
     "either" = pkgs.stdenv.mkDerivation {
       name = "either";
-      version = "v4.0.0";
+      version = "v4.1.0";
       src = pkgs.fetchgit {
         url = "https://github.com/purescript/purescript-either.git";
-        rev = "v4.0.0";
-        sha256 = "0c72wk4hdcayj1jvwk1i6fny8r9iflxblvng6a265hb9r8gnjnwn";
+        rev = "v4.1.0";
+        sha256 = "0h37aynl96lyfg02szfrl298mnlqrjb95g4mrpd233mqj2zj2487";
       };
       dontInstall = true;
       buildPhase = ''
@@ -220,11 +220,11 @@ let
 
     "foldable-traversable" = pkgs.stdenv.mkDerivation {
       name = "foldable-traversable";
-      version = "v4.1.0";
+      version = "v4.1.1";
       src = pkgs.fetchgit {
         url = "https://github.com/purescript/purescript-foldable-traversable.git";
-        rev = "v4.1.0";
-        sha256 = "1jcc68nghn1746rn6g6rxhgw1q6jn2mixc3hp3k63hizsjflg5wh";
+        rev = "v4.1.1";
+        sha256 = "03x89xcmphckzjlp4chc7swrpw347ll5bvr2yp7x9v2jqw2jlyi1";
       };
       dontInstall = true;
       buildPhase = ''
@@ -295,11 +295,11 @@ let
 
     "identity" = pkgs.stdenv.mkDerivation {
       name = "identity";
-      version = "v4.0.0";
+      version = "v4.1.0";
       src = pkgs.fetchgit {
         url = "https://github.com/purescript/purescript-identity.git";
-        rev = "v4.0.0";
-        sha256 = "0jw61rk4308qmbjxkdb37fdw2r08pzh8z3lg2x29f9l9f7ra5ggw";
+        rev = "v4.1.0";
+        sha256 = "1scdgbfkphfmapw7p9rnsiynpmqzyvnal2glzj450q51f8g1dhld";
       };
       dontInstall = true;
       buildPhase = ''
@@ -565,11 +565,11 @@ let
 
     "tuples" = pkgs.stdenv.mkDerivation {
       name = "tuples";
-      version = "v5.0.0";
+      version = "v5.1.0";
       src = pkgs.fetchgit {
         url = "https://github.com/purescript/purescript-tuples.git";
-        rev = "v5.0.0";
-        sha256 = "0vlhv4l2a2vb6rh5zfsjhbv7hy4vz9fa5p1ns0rk54xd2pzzlvgd";
+        rev = "v5.1.0";
+        sha256 = "045nsy0r2g51gih0wjhcvhl6gfr8947mlrqwg644ygz72rjm8wq4";
       };
       dontInstall = true;
       buildPhase = ''
@@ -627,6 +627,6 @@ let
 in {
   inherit inputs;
 
-  set = "241018";
+  set = "30112018";
   source = "https://github.com/justinwoo/spacchetti.git";
 }

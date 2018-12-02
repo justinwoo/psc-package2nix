@@ -4,23 +4,19 @@ let
   easy-ps = import (pkgs.fetchFromGitHub {
     owner = "justinwoo";
     repo = "easy-purescript-nix";
-    rev = "347ab7c91634462c2039c6c0641af5386c251a98";
-    sha256 = "0njhcl7dq58b3kmjbz6ndsccv4pcmdxc5lg7p13115phcmznpn99";
+    rev = "dac3520da91bf1b2d152d468700b75be5599b784";
+    sha256 = "02lcmsscbq1k3c8ap03xxbrf4vbwi1al6hsvfsr3sry7xj8f7ca4";
   });
 
   psc-package2nix = import ./psc-package2nix.nix { inherit pkgs; };
 
 in pkgs.stdenv.mkDerivation {
   name = "test";
-  src = ./.;
-
-  buildInputs
-    = [
-      pkgs.jq
-      pkgs.nix-prefetch-git
-      easy-ps.inputs.purs
-      easy-ps.inputs.psc-package-simple
-      psc-package2nix
-    ];
-
+  buildInputs = [
+    pkgs.jq
+    pkgs.nix-prefetch-git
+    easy-ps.inputs.purs
+    easy-ps.inputs.psc-package-simple
+    psc-package2nix
+  ];
 }

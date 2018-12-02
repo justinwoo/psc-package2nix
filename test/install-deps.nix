@@ -14,9 +14,5 @@ let
 
 in pkgs.stdenv.mkDerivation {
   name = "install-deps";
-  src = ./.;
-
-  buildInputs = packageDrvs;
-
   shellHook = pp2n-utils.mkDefaultShellHook packages packageDrvs;
 }
