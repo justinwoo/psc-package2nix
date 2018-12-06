@@ -9,4 +9,12 @@ rec {
   '';
 
   mkDefaultShellHook = packages: drvs: toString (map (mkCopyHook packages) drvs);
+
+  mkInstallPackages = nixpkgs: packages:
+    let packageDrvs = builtins.attrValues packages.inputs;
+    in nixpkgs.stdenv.mkDerivation({
+      name = "install-deps-${packages.set}";
+      buildInputs = packageDrvs;
+      shellHook = mkDefaultShellHook packages packageDrvs;
+    });
 }
