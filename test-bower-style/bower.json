@@ -1,0 +1,13 @@
+{
+  "name": "test-bower-style",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-mochi": "^0.1.0"
+  },
+  "devDependencies": {}
+}
