@@ -4,3 +4,5 @@ language: nix
 script:
   - cd test
   - make
+  - cd ../test-bower-style
+  - make

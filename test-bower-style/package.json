@@ -1,0 +1,20 @@
+{
+  "name": "test-bower-style",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "bower-install": "bower install",
+    "pulp-build": "pulp build"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bower": "^1.8.4",
+    "pulp": "^12.3.0",
+    "purescript": "^0.12.1"
+  }
+}

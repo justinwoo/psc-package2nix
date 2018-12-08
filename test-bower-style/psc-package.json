@@ -1,0 +1,11 @@
+{
+  "name": "test",
+  "set": "30112018",
+  "source": "https://github.com/justinwoo/spacchetti.git",
+  "depends": [
+    "aff",
+    "assert",
+    "console",
+    "prelude"
+  ]
+}
