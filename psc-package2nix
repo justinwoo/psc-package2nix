@@ -20,11 +20,8 @@ my $derivation_template = <<"END";
         rev = REV;
         sha256 = HASH;
       };
-      dontInstall = true;
-      buildPhase = ''
-        cp -r \$src \$out
-        rm -rf \$out/.git
-      '';
+      phases = "installPhase";
+      installPhase = "cp -r \$src \$out";
     };
 END
 
