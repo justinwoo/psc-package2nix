@@ -16,9 +16,9 @@ pkgs.stdenv.mkDerivation {
 
     wrapProgram $out/bin/psc-package2nix \
       --prefix PATH : ${pkgs.lib.makeBinPath [
+        pkgs.nix
         pkgs.coreutils
         pkgs.perl
-        pkgs.git
         pkgs.jq
         pkgs.nix-prefetch-git
       ]}
