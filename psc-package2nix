@@ -50,11 +50,28 @@ print `mkdir -p $dir`;
 chomp(my $source = `jq '.source' psc-package.json -r`);
 chomp(my $set = `jq '.set' psc-package.json -r`);
 
-my $json = ".psc-package/$set/.set/packages.json";
+my $package_set_dir = ".psc-package/$set/.set";
+my $json = "$package_set_dir/packages.json";
 
 unless (-e $json) {
-    my $dest = ".psc-package/$set/.set";
-    print `git clone -c advice.detachedHead=false --branch $set --depth 1 $source $dest && rm -rf $dest/.git`;
+    chomp(my $sha256 = `nix-prefetch-git $source --rev $set --quiet | jq '.sha256' -r`);
+    if ($? != 0) {
+        die "Error on downloading package set";
+    }
+    # magic hash for empty git repositories, because nix-prefetch-git does not fail
+    if ($sha256 eq "0sjjj9z1dhilhpc8pq4154czrb79z9cm044jvn75kxcjv6v5l2m5") {
+        die "Fetched an empty git repository for the package set. Verify that the package set is real."
+    }
+
+    my $package_set_expr = <<END;
+        (import <nixpkgs> {}).fetchgit {
+           url = "${source}";
+           rev = "${set}";
+           sha256 = "${sha256}";
+        }
+END
+
+    print `nix-build -E '$package_set_expr' -o $package_set_dir`;
 
     if ($? != 0) {
         die "Error on downloading package set";
