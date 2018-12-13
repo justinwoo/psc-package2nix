@@ -1,5 +1,5 @@
 #! /usr/bin/env nix-shell
-#! nix-shell --run 'exit'
+#! nix-shell ./install-deps.nix --run 'exit'
 
 let
   pkgs = import <nixpkgs> {};
