@@ -10,6 +10,8 @@ Read the blog post about this project here: <https://qiita.com/kimagure/items/85
 
 There's also a post about this whole setup (going from Bower): <https://qiita.com/kimagure/items/aec640d0047d08d2ce90>
 
+I (Justin) gave a talk about Psc-Package2Nix: <https://speakerdeck.com/justinwoo/nix-ify-your-psc-package-dependencies>
+
 ## Usage example
 
 ### `default.nix`
