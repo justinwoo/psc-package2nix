@@ -3,4 +3,4 @@ default:
 build:
 	psc-package2nix
 	./install-deps.nix
-	psc-package build
+	purs compile 'src/**/*.purs' '.psc-package/*/*/*/src/**/*.purs'
