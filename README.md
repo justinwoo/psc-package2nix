@@ -22,6 +22,24 @@ Then when you look at `default.nix`, you will find that we have a normal derivat
 
 First, we use [easy-purescript-nix](https://github.com/justinwoo/easy-purescript-nix) to easily install the PureScript compiler and Psc-Package (see `buildInputs` below).
 
+```nix
+# easy-purs.nix
+
+# this line means that this expression can take a "pkgs" argument, but will default to `import <nixpkgs> {}`
+# You can check the nixpkgs content from the repl yourself with `nixpkgs = ./import <nixpkgs> {}`
+# Remember that <nixpkgs> corresponds to channels you have declared in ~/.nix-channels, e.g.
+# https://nixos.org/channels/nixpkgs-unstable nixpkgs
+{ pkgs ? import <nixpkgs> {}}:
+
+# import the nix expression provided by a source, in this case being a derivation with its `src` contents being the repo contents
+import (pkgs.fetchFromGitHub {
+  owner = "justinwoo";
+  repo = "easy-purescript-nix";
+  rev = "5b71ea53e25a1f99229ee0b657b37c46f6fc0a45";
+  sha256 = "1qza198b93abr4klzvz55ccai99ji893j4kgv0dali827ryk7ph2";
+})
+```
+
 Then, we bring in `psc-package2nix` from this repository remotely. This expression takes an argument should you wish to override `pkgs`, but this will default to using `<nixpkgs>`.
 
 ```nix
