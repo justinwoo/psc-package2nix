@@ -3,8 +3,11 @@ rec {
   let target = ".psc-package/${packages.set}/${drv.name}/${drv.version}";
   in ''
     if [ ! -e ${target} ]; then
-    mkdir -p ${target}
-    cp --no-preserve=mode,ownership,timestamp -r ${toString drv.outPath}/* ${target}
+      echo "Installing ${target}."
+      mkdir -p ${target}
+      cp --no-preserve=mode,ownership,timestamp -r ${toString drv.outPath}/* ${target}
+    else
+      echo "${target} already exists. Skipping."
     fi
   '';
 
@@ -19,12 +22,15 @@ rec {
     });
 
   mkBowerStyleCopyHook = drv:
-  let target = "bower_components/purescript-${drv.name}";
-  in ''
-  if [ ! -e ${target} ]; then
-  mkdir -p ${target}
-  cp --no-preserve=mode,ownership,timestamp -r ${toString drv.outPath}/* ${target}
-  fi
+    let target = "bower_components/purescript-${drv.name}";
+    in ''
+    if [ ! -e ${target} ]; then
+      echo "Installing ${target}."
+      mkdir -p ${target}
+      cp --no-preserve=mode,ownership,timestamp -r ${toString drv.outPath}/* ${target}
+    else
+      echo "${target} already exists. Skipping."
+    fi
   '';
 
   mkBowerStyleShellHook = drvs: toString (map mkBowerStyleCopyHook drvs);
