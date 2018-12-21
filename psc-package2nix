@@ -5,7 +5,7 @@ use strict;
 use feature 'say';
 use FindBin qw($RealBin);
 use lib "$RealBin/lib";
-use GetDeps;
+use PscPackage2Nix::GetDeps;
 
 my $dir = ".psc-package2nix";
 my $config = 'psc-package.json';
@@ -78,7 +78,7 @@ END
     }
 }
 
-my @deps = GetDeps::getDeps($config, $json);
+my @deps = PscPackage2Nix::GetDeps::getDeps($config, $json);
 
 my %targets = ();
 my %versions = ();

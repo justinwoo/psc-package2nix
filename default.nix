@@ -10,11 +10,15 @@ pkgs.stdenv.mkDerivation {
   ];
 
   installPhase = ''
+    PERL_LIB=$out/lib/perl5/site_perl/${pkgs.perl.version}
+    mkdir -p $PERL_LIB
+    cp -v -r $src/lib/* $PERL_LIB
+
     mkdir -p $out/bin/lib
-    cp -r $src/lib $out/bin
     install -D -m555 -t $out/bin psc-package2nix
 
     wrapProgram $out/bin/psc-package2nix \
+      --prefix PERL5LIB : $PERL_LIB \
       --prefix PATH : ${pkgs.lib.makeBinPath [
         pkgs.nix
         pkgs.coreutils

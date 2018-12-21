@@ -1,4 +1,4 @@
-package GetDeps;
+package PscPackage2Nix::GetDeps;
 
 use warnings;
 use strict;
