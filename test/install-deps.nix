@@ -12,8 +12,10 @@ let
   #   sha = "SOMESHA";
   # };
   # easy-ps = import ./easy-ps.nix { inherit pkgs; };
-  # pp2n-utils = import (easy-ps.inputs.psc-package2nix.src + "/utils.nix");
+  # mkInstallPackages = import (easy-ps.inputs.psc-package2nix.src + "/nix/mkInstallPackages.nix");
 
-  pp2n-utils = import ../utils.nix;
+  mkInstallPackages = import ../nix/mkInstallPackages.nix;
 
-in pp2n-utils.mkInstallPackages pkgs packages
+in mkInstallPackages {
+  inherit packages;
+}
