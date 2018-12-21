@@ -1,68 +1,28 @@
-rec {
-  wrapQuote = str: ''"${str}"'';
+{
+  wrapQuote = import ./nix/wrapQuote.nix;
 
-  getGlobsQuoted = packages: builtins.map wrapQuote (getGlobs packages);
+  # related to handling of globs of psc-package style deps
+  getGlobsQuoted = import ./nix/getGlobsQuoted.nix;
+  getGlobs = import ./nix/getGlobs.nix;
 
-  getGlobs = packages:
-    let
-      mkGlob = drv: ".psc-package/${packages.set}/${drv.name}/${drv.version}/src/**/*.purs";
-      globs = builtins.map mkGlob (builtins.attrValues packages.inputs);
-    in globs;
+  # make a copy hook for psc-package style deps
+  mkCopyHook = import ./nix/mkCopyHook.nix;
 
-  mkCopyHook = packages: drv:
-  let target = ".psc-package/${packages.set}/${drv.name}/${drv.version}";
-  in ''
-    if [ ! -e ${target} ]; then
-      echo "Installing ${target}."
-      mkdir -p ${target}
-      cp --no-preserve=mode,ownership,timestamp -r ${toString drv.outPath}/* ${target}
-    else
-      echo "${target} already exists. Skipping."
-    fi
-  '';
+  # make a default shell hook that will copy psc-package style dependencies
+  mkDefaultShellHook = import ./nix/mkDefaultShellHook.nix;
 
-  mkDefaultShellHook = packages: drvs: toString (map (mkCopyHook packages) drvs);
+  # make a shell derivation that will install psc-package style dependencies
+  mkInstallPackages = import ./nix/mkInstallPackages.nix;
 
-  mkInstallPackages = nixpkgs: packages:
-    let packageDrvs = builtins.attrValues packages.inputs;
-    in nixpkgs.stdenv.mkDerivation({
-      name = "install-deps-${packages.set}";
-      buildInputs = packageDrvs;
-      shellHook = mkDefaultShellHook packages packageDrvs;
-    });
+  # make a shell derivation that will compile psc-package style dependencies
+  mkCompilePscPackages = import ./nix/mkCompilePscPackages.nix;
 
-  mkCompilePscPackages = {
-    mkDerivation ? (import <nixpkgs> {}).stdenv.mkDerivation,
-    packages,
-    purs,
-    src ? ''"src/**/*.purs"'',
-  }:
-  let globs = builtins.toString (getGlobsQuoted packages);
-  in mkDerivation {
-    name = "compile";
-    buildInputs = [purs];
-    shellHook = "purs compile ${globs} ${src}";
-  };
+  # make a copy hook for bower style deps
+  mkBowerStyleCopyHook = import ./nix/mkBowerStyleCopyHook.nix;
 
-  mkBowerStyleCopyHook = drv:
-    let target = "bower_components/purescript-${drv.name}";
-    in ''
-    if [ ! -e ${target} ]; then
-      echo "Installing ${target}."
-      mkdir -p ${target}
-      cp --no-preserve=mode,ownership,timestamp -r ${toString drv.outPath}/* ${target}
-    else
-      echo "${target} already exists. Skipping."
-    fi
-  '';
+  # make a default shell hook that will copy bower style dependencies
+  mkBowerStyleShellHook = import ./nix/mkBowerStyleShellHook.nix;
 
-  mkBowerStyleShellHook = drvs: toString (map mkBowerStyleCopyHook drvs);
-
-  mkInstallBowerStyle = nixpkgs: packages:
-    let packageDrvs = builtins.attrValues packages.inputs;
-    in nixpkgs.stdenv.mkDerivation({
-      name = "install-bower-style";
-      buildInputs = packageDrvs;
-      shellHook = mkBowerStyleShellHook packageDrvs;
-  });
+  # make a shell derivation that will install bower style depeendencies
+  mkInstallBowerStyle = import ./nix/mkInstallBowerStyle.nix;
 }

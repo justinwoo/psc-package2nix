@@ -29,7 +29,7 @@ First, we use [easy-purescript-nix](https://github.com/justinwoo/easy-purescript
 # You can check the nixpkgs content from the repl yourself with `nixpkgs = ./import <nixpkgs> {}`
 # Remember that <nixpkgs> corresponds to channels you have declared in ~/.nix-channels, e.g.
 # https://nixos.org/channels/nixpkgs-unstable nixpkgs
-{ pkgs ? import <nixpkgs> {}}:
+{ pkgs ? import <nixpkgs> {} }:
 
 # import the nix expression provided by a source, in this case being a derivation with its `src` contents being the repo contents
 import (pkgs.fetchFromGitHub {
