@@ -1,4 +1,14 @@
 rec {
+  wrapQuote = str: ''"${str}"'';
+
+  getGlobsQuoted = packages: builtins.map wrapQuote (getGlobs packages);
+
+  getGlobs = packages:
+    let
+      mkGlob = drv: ".psc-package/${packages.set}/${drv.name}/${drv.version}/src/**/*.purs";
+      globs = builtins.map mkGlob (builtins.attrValues packages.inputs);
+    in globs;
+
   mkCopyHook = packages: drv:
   let target = ".psc-package/${packages.set}/${drv.name}/${drv.version}";
   in ''
@@ -20,6 +30,19 @@ rec {
       buildInputs = packageDrvs;
       shellHook = mkDefaultShellHook packages packageDrvs;
     });
+
+  mkCompilePscPackages = {
+    mkDerivation ? (import <nixpkgs> {}).stdenv.mkDerivation,
+    packages,
+    purs,
+    src ? ''"src/**/*.purs"'',
+  }:
+  let globs = builtins.toString (getGlobsQuoted packages);
+  in mkDerivation {
+    name = "compile";
+    buildInputs = [purs];
+    shellHook = "purs compile ${globs} ${src}";
+  };
 
   mkBowerStyleCopyHook = drv:
     let target = "bower_components/purescript-${drv.name}";
