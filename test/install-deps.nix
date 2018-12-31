@@ -16,6 +16,6 @@ let
 
   mkInstallPackages = import ../nix/mkInstallPackages.nix;
 
-in mkInstallPackages {
+in pkgs.callPackage mkInstallPackages {
   inherit packages;
 }
