@@ -10,7 +10,7 @@ pkgs.stdenv.mkDerivation {
   ];
 
   installPhase = ''
-    PERL_LIB=$out/lib/perl5/site_perl/${pkgs.perl.version}
+    PERL_LIB=$out/lib/perl5/site_perl/${pkgs.perl}
     mkdir -p $PERL_LIB
     cp -v -r $src/lib/* $PERL_LIB
 
