@@ -1,1 +1,2 @@
 test/packages.nix linguist-vendored
+test-bower-style/packages.nix linguist-vendored
