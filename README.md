@@ -12,6 +12,8 @@ There's also a post about this whole setup (going from Bower): <https://qiita.co
 
 I (Justin) gave a talk about Psc-Package2Nix: <https://speakerdeck.com/justinwoo/nix-ify-your-psc-package-dependencies>
 
+See the [test](./test) setup for a regular Psc-Package project, and the [test-bower-style](./test-bower-style) setup for a Bower-like setup shimming Bower dependencies.
+
 ## Usage example
 
 ### `default.nix`
