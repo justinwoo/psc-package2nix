@@ -14,9 +14,9 @@ pkgs.stdenv.mkDerivation {
     mkdir -p $PERL_LIB
     cp -v -r $src/lib/* $PERL_LIB
 
-    mkdir -p $out/bin/lib
-    install -D -m555 -t $out/bin psc-package2nix
+    mkdir -p $out/bin
 
+    install -D -m555 -t $out/bin psc-package2nix
     wrapProgram $out/bin/psc-package2nix \
       --prefix PERL5LIB : $PERL_LIB \
       --prefix PATH : ${pkgs.lib.makeBinPath [
@@ -25,6 +25,16 @@ pkgs.stdenv.mkDerivation {
         pkgs.perl
         pkgs.jq
         pkgs.nix-prefetch-git
+      ]}
+
+    install -D -m555 -t $out/bin pp2n
+    wrapProgram $out/bin/pp2n \
+      --prefix PERL5LIB : $PERL_LIB \
+      --prefix PP2N_SRC : $src \
+      --prefix PATH : $out/bin:${pkgs.lib.makeBinPath [
+        pkgs.nix
+        pkgs.coreutils
+        pkgs.perl
       ]}
   '';
 }

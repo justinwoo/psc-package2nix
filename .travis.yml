@@ -6,3 +6,5 @@ script:
   - make
   - cd ../test-bower-style
   - make
+  - cd ../test-pp2n
+  - make
