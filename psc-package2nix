@@ -4,7 +4,6 @@ use warnings;
 use strict;
 use feature 'say';
 use FindBin qw($RealBin);
-use lib "$RealBin/lib";
 use PscPackage2Nix::GetDeps;
 
 my $dir = ".psc-package2nix";
