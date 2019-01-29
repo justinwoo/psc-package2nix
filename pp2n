@@ -57,7 +57,7 @@ sub get_globs() {
 sub build() {
     my $passthrough = $#ARGV > 0 ? join(' ', @ARGV[1..$#ARGV]): '';
 
-    my $cmd = "purs compile 'src/**/*.purs' 'test/**/*.purs'";
+    my $cmd = "purs compile $passthrough 'src/**/*.purs' 'test/**/*.purs'";
     for my $glob (get_globs()) {
         $cmd .= ' "' . $glob . '"';
     }
