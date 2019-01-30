@@ -17,7 +17,7 @@ let
         sha256 = "0jhqaimcg9cglnby0rn5xnrllcjj9mlb5yp6zqpy8b9zpg744v7d";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "arrays" = pkgs.stdenv.mkDerivation {
@@ -29,7 +29,7 @@ let
         sha256 = "1pcvkgfp8kxk7s1lm28cpc24d0y782n6n6xirkdb09jjh6i62r6s";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "assert" = pkgs.stdenv.mkDerivation {
@@ -41,7 +41,7 @@ let
         sha256 = "1bg60rx1r2kc41vzpp420v5gnl6njgqna4h6qcyr3zh1rrzj965l";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "bifunctors" = pkgs.stdenv.mkDerivation {
@@ -53,7 +53,7 @@ let
         sha256 = "1bdra5fbkraglqrrm484vw8h0wwk48kzkn586v4y7fg106q1q386";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "console" = pkgs.stdenv.mkDerivation {
@@ -65,7 +65,7 @@ let
         sha256 = "1b2nykdq1dzaqyra5pi8cvvz4dsbbkg57a2c88yi931ynm19nnw6";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "const" = pkgs.stdenv.mkDerivation {
@@ -77,7 +77,7 @@ let
         sha256 = "0qbd2aisax52yw6sybdhs7na943cbsd6mylhhgsamrf7hzh6v51p";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "contravariant" = pkgs.stdenv.mkDerivation {
@@ -89,7 +89,7 @@ let
         sha256 = "0vvcgfclx236kg4y76nwih787wyqacq8mmx42q64xzl964yrwxkk";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "control" = pkgs.stdenv.mkDerivation {
@@ -101,7 +101,7 @@ let
         sha256 = "10703zvsnjm5fc74k6wzjsvpsfyc3jci3jxhm7rxf7ymya9z1z53";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "datetime" = pkgs.stdenv.mkDerivation {
@@ -113,7 +113,7 @@ let
         sha256 = "1r998l57p8q5sj74kdb3hdhd3asb596ipgjqhyz2i2v4yiazfriv";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "distributive" = pkgs.stdenv.mkDerivation {
@@ -125,7 +125,7 @@ let
         sha256 = "0zbn0yq1vv7fbbf1lncg80irz0vg7wnw9b9wrzxhdzpbkw4jinsl";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "effect" = pkgs.stdenv.mkDerivation {
@@ -137,7 +137,7 @@ let
         sha256 = "0l46xqz39khf2c779d8mvax1fp2phy5sf8qdn31x67dz389mjr81";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "either" = pkgs.stdenv.mkDerivation {
@@ -149,7 +149,7 @@ let
         sha256 = "0h37aynl96lyfg02szfrl298mnlqrjb95g4mrpd233mqj2zj2487";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "enums" = pkgs.stdenv.mkDerivation {
@@ -161,7 +161,7 @@ let
         sha256 = "1g2zns5xsdb9xyv14iwyvg2x39hjpsyvvrkh8gy1pqgzv6frmb18";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "exceptions" = pkgs.stdenv.mkDerivation {
@@ -173,7 +173,7 @@ let
         sha256 = "17s0rg9k4phivhx9j3l2vqqfdhk61gpj1xfqy8w6zj3rnxj0b2cv";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "foldable-traversable" = pkgs.stdenv.mkDerivation {
@@ -185,7 +185,7 @@ let
         sha256 = "03x89xcmphckzjlp4chc7swrpw347ll5bvr2yp7x9v2jqw2jlyi1";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "functions" = pkgs.stdenv.mkDerivation {
@@ -197,7 +197,7 @@ let
         sha256 = "0675k5kxxwdvsjs6a3is8pwm3hmv0vbcza1b8ls10gymmfz3k3hj";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "functors" = pkgs.stdenv.mkDerivation {
@@ -209,7 +209,7 @@ let
         sha256 = "1hdvsznzwl8akkgy0islr48qrqhr3syagggily27lv0d1mjl0rw3";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "gen" = pkgs.stdenv.mkDerivation {
@@ -221,7 +221,7 @@ let
         sha256 = "0ddsfb6a23rahkw9d3ymp2sf6d6vxndj73y61cdv74zrlr2nx74p";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "globals" = pkgs.stdenv.mkDerivation {
@@ -233,7 +233,7 @@ let
         sha256 = "150mc0kv0cb5fkx0szicwczjr54bglmlyaynj2grf1r4gnjg967s";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "identity" = pkgs.stdenv.mkDerivation {
@@ -245,7 +245,7 @@ let
         sha256 = "1scdgbfkphfmapw7p9rnsiynpmqzyvnal2glzj450q51f8g1dhld";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "integers" = pkgs.stdenv.mkDerivation {
@@ -257,7 +257,7 @@ let
         sha256 = "17d4bfpnrmbxlc7hhhrvnli70ydaqyr26zgvc9q52a76zgdcb4cf";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "invariant" = pkgs.stdenv.mkDerivation {
@@ -269,7 +269,7 @@ let
         sha256 = "1fimpbh3yb7clvqxcdf4yf9im64z0v2s9pbspfacgq5b4vshjas9";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "lazy" = pkgs.stdenv.mkDerivation {
@@ -281,7 +281,7 @@ let
         sha256 = "156q89l4nvvn14imbhp6xvvm82q7kqh1pyndmldmnkhiqyr84vqv";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "lists" = pkgs.stdenv.mkDerivation {
@@ -293,7 +293,7 @@ let
         sha256 = "14z4pmw76h3rj6mqwkxny91nqrk5rj5drsl4za2sng83bkj9fj4k";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "math" = pkgs.stdenv.mkDerivation {
@@ -305,7 +305,7 @@ let
         sha256 = "1msmy9w7y6fij62sdc55w68gpwkhm6lhgc8qjisjk4sxx1wdg1rr";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "maybe" = pkgs.stdenv.mkDerivation {
@@ -317,7 +317,7 @@ let
         sha256 = "06mm4a6lbp5by14vms3lyhqp64211lwnq1dqbaazvdp0afykx1z5";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "newtype" = pkgs.stdenv.mkDerivation {
@@ -329,7 +329,7 @@ let
         sha256 = "0qvk9p41miy806b05b4ikbr3if0fcyc35gfrwd2mflcxxp46011c";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "nonempty" = pkgs.stdenv.mkDerivation {
@@ -341,7 +341,7 @@ let
         sha256 = "1vz174sg32cqrp52nwb2vz9frrzmdwzzlgl4vc2cm5wlf2anirxj";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "ordered-collections" = pkgs.stdenv.mkDerivation {
@@ -353,7 +353,7 @@ let
         sha256 = "0kh1hxs5lqmdzjf8zs7i8val9l5z67l7g10rgbnkln2j54mym3cf";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "orders" = pkgs.stdenv.mkDerivation {
@@ -365,7 +365,7 @@ let
         sha256 = "13p1sm4dxkmxhld9x5qqg62iiajjb3qpzs66c1r24y5fs4zsfry4";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "parallel" = pkgs.stdenv.mkDerivation {
@@ -377,7 +377,7 @@ let
         sha256 = "1d5bnagabw2k8yxywkygwrpblb2ggqh2fhpqfrx2sj1y53x332hg";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "partial" = pkgs.stdenv.mkDerivation {
@@ -389,7 +389,7 @@ let
         sha256 = "0nw5989ydin2d12b97ch4pdynxkq91xpj7yym5gpd5fpbgy36mdi";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "prelude" = pkgs.stdenv.mkDerivation {
@@ -401,7 +401,7 @@ let
         sha256 = "1pwqhsba4xyywfflma5rfqzqac1vmybwq7p3wkm4wsackvbn34h5";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "refs" = pkgs.stdenv.mkDerivation {
@@ -413,7 +413,7 @@ let
         sha256 = "08161iy1xbafzblv033v84156azpcqkiw9v9d6gliphrq5fm17gm";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "st" = pkgs.stdenv.mkDerivation {
@@ -425,7 +425,7 @@ let
         sha256 = "0m2jkb9dmpbr8s1c20l7sm2q11y5rx8gqfiyspnyhq5apzkknjr0";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "tailrec" = pkgs.stdenv.mkDerivation {
@@ -437,7 +437,7 @@ let
         sha256 = "0z7k80nl8dgv8mc2w8xsl2n0637bd1l8ppxak8kaifgjjwa81hx3";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "transformers" = pkgs.stdenv.mkDerivation {
@@ -449,7 +449,7 @@ let
         sha256 = "1aazy1zk66lng8w0gjx2l7sqfr968gmibdxi4kd93zb7bw5vldvn";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "tuples" = pkgs.stdenv.mkDerivation {
@@ -461,7 +461,7 @@ let
         sha256 = "045nsy0r2g51gih0wjhcvhl6gfr8947mlrqwg644ygz72rjm8wq4";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "type-equality" = pkgs.stdenv.mkDerivation {
@@ -473,7 +473,7 @@ let
         sha256 = "1b7szyca5s96gaawvgwrw7fa8r7gqsdff7xhz3vvngnylv2scl3w";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "unfoldable" = pkgs.stdenv.mkDerivation {
@@ -485,7 +485,7 @@ let
         sha256 = "077vl30j3pxr3zw6cw7wd0vi22j92j8va15r26rn53wzbzcgr41j";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 
     "unsafe-coerce" = pkgs.stdenv.mkDerivation {
@@ -497,7 +497,7 @@ let
         sha256 = "0k9255mk2mz6xjb11pwkgfcblmmyvr86ig5kr92jwy95xim09zip";
       };
       phases = "installPhase";
-      installPhase = "cp -r $src $out";
+      installPhase = "ln -s $src $out";
     };
 };
 
