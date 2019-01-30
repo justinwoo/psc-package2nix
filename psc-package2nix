@@ -20,7 +20,7 @@ my $derivation_template = <<"END";
         sha256 = HASH;
       };
       phases = "installPhase";
-      installPhase = "cp -r \$src \$out";
+      installPhase = "ln -s \$src \$out";
     };
 END
 
