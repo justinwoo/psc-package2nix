@@ -11,3 +11,7 @@ pp2n:
 	pp2n build -g corefn
 	test -f output/Main/index.js
 	test -f output/Main/corefn.json
+	rm -rf output/Prelude
+	pp2n bower-install
+	purs compile "bower_components/*/src/**/*.purs"
+	test -f output/Prelude/index.js

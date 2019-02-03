@@ -1,3 +1,4 @@
 .psc-package
 .psc-package2nix
 output
+bower_components

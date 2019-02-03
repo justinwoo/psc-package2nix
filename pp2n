@@ -9,9 +9,12 @@ my $PP2N_SRC = $ENV{'PP2N_SRC'};
 my $USAGE = <<END;
 pp2n - a small utility for Psc-Package2Nix that allows for the most commonly needed actions from Psc-Package
 
-Usage: pp2n (install | build | sources | init | help)
+Usage: pp2n (install | build | sources | init | help | bower-install)
 
 Available commands:
+  install
+    Install dependencies from packages.nix in Psc-Package style
+
   build [passthrough args]
     Build the (psc-package style) project, including 'src/**/*.purs' and 'test/**/*.purs', with passthrough args for purs.
 
@@ -20,6 +23,9 @@ Available commands:
 
   init
     copy some initial files from psc-package2nix/test to the current directory.
+
+  bower-install
+    Install dependencies from packages.nix in Bower style
 END
 
 my $install_deps_derivation = <<END;
@@ -28,8 +34,23 @@ let mkInstallPackages = import $PP2N_SRC/nix/mkInstallPackages.nix;
 in mkInstallPackages { inherit packages; }
 END
 
+my $bower_install_deps_derivation = <<END;
+let mkInstallBowerStyle = import $PP2N_SRC/nix/mkInstallBowerStyle.nix;
+    packages = import ./packages.nix {};
+in mkInstallBowerStyle { inherit packages; }
+END
+
 sub install_deps() {
     print `nix-shell -E "$install_deps_derivation" --run 'exit'`;
+
+    if ($? != 0) {
+        say "Error running nix-shell for installing deps.";
+        exit $?;
+    }
+}
+
+sub bower_install_deps() {
+    print `nix-shell -E "$bower_install_deps_derivation" --run 'exit'`;
 
     if ($? != 0) {
         say "Error running nix-shell for installing deps.";
@@ -75,6 +96,12 @@ if ($ARGV[0] eq "install" || $ARGV[0] eq "i") {
     install_deps();
     exit;
 }
+
+if ($ARGV[0] eq "bower-install" || $ARGV[0] eq "bi") {
+    bower_install_deps();
+    exit;
+}
+
 
 if ($ARGV[0] eq "build" || $ARGV[0] eq "b") {
     build();
