@@ -35,5 +35,8 @@ pkgs.stdenv.mkDerivation {
       --prefix PATH : $out/bin:${pkgs.lib.makeBinPath [
         pkgs.nix
       ]}
+
+    mkdir -p $out/etc/bash_completion.d/
+    cp $src/pp2n-completion.bash $out/etc/bash_completion.d/pp2n-completion.bash
   '';
 }
