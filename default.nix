@@ -7,6 +7,7 @@ pkgs.stdenv.mkDerivation {
 
   buildInputs = [
     pkgs.makeWrapper
+    pkgs.ghc
   ];
 
   installPhase = ''
@@ -27,14 +28,12 @@ pkgs.stdenv.mkDerivation {
         pkgs.nix-prefetch-git
       ]}
 
+    ghc -o pp2n pp2n.hs
     install -D -m555 -t $out/bin pp2n
     wrapProgram $out/bin/pp2n \
-      --prefix PERL5LIB : $PERL_LIB \
       --prefix PP2N_SRC : $src \
       --prefix PATH : $out/bin:${pkgs.lib.makeBinPath [
         pkgs.nix
-        pkgs.coreutils
-        pkgs.perl
       ]}
   '';
 }
