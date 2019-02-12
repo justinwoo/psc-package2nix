@@ -14,3 +14,10 @@ pp2n:
 	pp2n bower-install
 	purs compile "bower_components/*/src/**/*.purs"
 	test -f output/Prelude/index.js
+	pp2n test
+	pp2n test -m Test.Main
+	pp2n bundle
+	test -f index.js
+	pp2n bundle -m Main -o crap.js
+	test -f crap.js
+	node crap.js

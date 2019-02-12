@@ -2,3 +2,5 @@
 .psc-package2nix
 output
 bower_components
+index.js
+crap.js
