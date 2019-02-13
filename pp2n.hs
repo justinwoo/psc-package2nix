@@ -88,7 +88,7 @@ prepareBundleDefaults (mModuleName, mTargetPath) =
 sources :: PP2N_SRC -> IO ()
 sources pp2nSrc = do
   Globs globs <- getGlobs pp2nSrc
-  _ <- traverse print globs
+  _ <- traverse putStrLn globs
   pure ()
 
 bowerInstall :: PP2N_SRC -> IO ()
