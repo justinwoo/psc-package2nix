@@ -97,7 +97,7 @@ bowerInstall pp2nSrc = do
   callSystem "nix-shell" ["-E", derivation, "--run", "'exit'"]
 
 help :: IO ()
-help = putStr usageText
+help = putStrLn usageText
 
 main :: IO ()
 main = do
