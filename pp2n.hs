@@ -43,8 +43,8 @@ getGlobs :: PP2N_SRC -> IO Globs
 getGlobs pp2nSrc = do
   let globsDerivation = mkGetGlobsDerivation pp2nSrc
   out <- readSystem "nix-instantiate" ["--eval", "-E", globsDerivation]
-  let quotesRemoved = List.filter (\x -> x /= '"') out
-  pure $ Globs $ List.words quotesRemoved
+  let quotesRemoved = Text.words . Text.filter (\x -> x /= '"') $ Text.pack out
+  pure $ Globs $ Text.unpack <$> quotesRemoved
 
 build :: PP2N_SRC -> [String] -> IO ()
 build pp2nSrc extraArgs = do
