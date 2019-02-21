@@ -77,6 +77,10 @@ END
     }
 }
 
+if ($#ARGV == 0 && $ARGV[0] eq "set-only") {
+  exit 0;
+}
+
 my @deps = PscPackage2Nix::GetDeps::getDeps($config, $json);
 
 my %targets = ();

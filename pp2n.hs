@@ -37,6 +37,7 @@ readSystem cmd args = do
 install :: PP2N_SRC -> [String] -> IO ()
 install pp2nSrc extraArgs = do
   let derivation = mkInstallDepsDerivation pp2nSrc
+  callSystem "psc-package2nix" ["set-only"]
   callSystem "nix-shell" $ ["-E", derivation, "--run", "'exit'"] ++ extraArgs
 
 getGlobs :: PP2N_SRC -> IO Globs
