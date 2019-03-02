@@ -1,8 +1,11 @@
 module Main where
 
+import qualified Control.Concurrent.Async.Pool as Async
 import qualified Data.List as List
 import qualified Data.Maybe as Maybe
+import qualified Data.Set as Set
 import qualified Data.Text as Text
+import qualified System.Directory as Dir
 import qualified System.Environment as Env
 import qualified System.Exit as Exit
 import qualified System.Process as Proc
@@ -13,6 +16,15 @@ newtype ModuleName = ModuleName String
 newtype OutFilePath = OutFilePath String
 type BundleArgs = (Maybe ModuleName, Maybe OutFilePath)
 
+quote :: String -> String
+quote s = "\"" <> s <> "\""
+
+strip :: String -> String
+strip = Text.unpack . Text.strip . Text.pack
+
+callBash :: String -> IO ()
+callBash cmd = callSystem "bash" ["-c", cmd]
+
 callSystem :: String -> [String] -> IO ()
 callSystem cmd args = do
   let process = Proc.proc cmd args
@@ -20,7 +32,12 @@ callSystem cmd args = do
   exitCode <- Proc.waitForProcess handle
   case exitCode of
     Exit.ExitSuccess -> pure ()
-    Exit.ExitFailure _ -> Exit.exitWith exitCode
+    _ -> do
+      putStrLn $ "error while running " <> cmd <> ":"
+      Exit.exitWith exitCode
+
+readBash :: String -> IO String
+readBash cmd = readSystem "bash" ["-c", cmd]
 
 readSystem :: String -> [String] -> IO String
 readSystem cmd args = do
@@ -28,7 +45,7 @@ readSystem cmd args = do
   (exitCode, out, err) <- Proc.readCreateProcessWithExitCode process ""
   case exitCode of
     Exit.ExitSuccess -> do
-      pure out
+      pure . strip $ out
     _ -> do
       putStrLn $ "error while running " <> cmd <> ":"
       putStr err
@@ -89,6 +106,7 @@ prepareBundleDefaults (mModuleName, mTargetPath) =
 sources :: PP2N_SRC -> IO ()
 sources pp2nSrc = do
   Globs globs <- getGlobs pp2nSrc
+  -- globs should not be quoted in sources output
   _ <- traverse putStrLn globs
   pure ()
 
@@ -96,6 +114,69 @@ bowerInstall :: PP2N_SRC -> IO ()
 bowerInstall pp2nSrc = do
   let derivation = mkBowerInstallDepsDerivation pp2nSrc
   callSystem "nix-shell" ["-E", derivation, "--run", "'exit'"]
+
+pscPackage2Nix :: IO ()
+pscPackage2Nix = do
+  callBash $ "mkdir -p " <> pscPackage2NixDir
+  sourceName <- readSystem "jq" [".source", pscPackageJson, "-r"]
+  setName <- readSystem "jq" [".set", pscPackageJson, "-r"]
+  let set = Set setName
+  let source = Source sourceName
+  let packageSetDir = ".psc-package/" <> setName <> "/.set"
+  let packagesJson = packageSetDir <> "/packages.json"
+
+  hasPackagesJson <- Dir.doesPathExist packagesJson
+  if hasPackagesJson then pure () else do
+    sha <- readBash $ "nix-prefetch-git " <> sourceName <> " --rev " <> setName <> " --quiet | jq '.sha256' -r"
+
+    -- check against empty prefetch result
+    -- this is because nix-prefetch-git doesn't error on non matches
+    if (sha /= "0sjjj9z1dhilhpc8pq4154czrb79z9cm044jvn75kxcjv6v5l2m5") then pure () else do
+      fail "Fetched an empty git repository for the package set. Verify that the package set is real."
+
+    let expr = mkPackageSetExpr set source (Hash sha)
+    callSystem "nix-build" ["-E", expr, "-o", packageSetDir]
+    putStrLn $ "built package set to " <> packageSetDir
+
+  depends <- readBash $ "jq '.depends | values[]' -r " <> pscPackageJson
+  let directDeps = Dep <$> List.lines depends
+  deps <- Set.toList <$> loop (getDeps packagesJson) Set.empty directDeps
+
+  derivations <- Async.withTaskGroup 10 $ \taskgroup ->
+    Async.mapTasks taskgroup $ getDerivation packagesJson <$> deps
+  let packages = mkPackagesExpr derivations set source
+
+  writeFile "packages.nix" packages
+  putStrLn "wrote packages.nix"
+  where
+    loop _ set [] = pure set
+    loop f set (x:xs) = do
+      set' <- f x set
+      loop f set' xs
+
+    getDeps :: FilePath -> Dep -> Set.Set Dep -> IO (Set.Set Dep)
+    getDeps packagesJson dep@(Dep depName) visited =
+      if Set.member dep visited then pure visited else do
+        let visited' = Set.insert dep visited
+        transitive <- readBash $ "jq '." <> quote depName <> ".dependencies | values[]' " <> packagesJson <> " -r"
+        loop (getDeps packagesJson) visited' (Dep <$> List.lines transitive)
+
+    getDerivation :: FilePath -> Dep -> IO Derivation
+    getDerivation packagesJson dep@(Dep depName) = do
+      let depNameQuoted = quote depName
+
+      version <- readBash $ "jq '." <> depNameQuoted <> ".version' -r " <> packagesJson
+      repo <- readBash $ "jq '." <> depNameQuoted <> ".repo' -r " <> packagesJson
+
+      let hashFilePath = pscPackage2NixDir <> "/" <> depName <> "-" <> version
+      hasHash <- Dir.doesPathExist hashFilePath
+
+      if hasHash then pure () else do
+        callBash $ "echo fetching " <> hashFilePath
+        callBash $ "nix-prefetch-git " <> repo <> " --rev " <> version <> " --quiet | jq '.sha256' -r > " <> hashFilePath
+      hash <- strip <$> readFile hashFilePath
+
+      pure $ mkDepDerivation dep (Version version) (Repo repo) (Hash hash)
 
 help :: IO ()
 help = putStrLn usageText
@@ -112,6 +193,7 @@ main = do
     "bower-install" : _ -> bowerInstall pp2nSrc
     "test" : rest -> test pp2nSrc (parseTestArgs rest)
     "bundle" : bundleArgs -> bundle (parseBundleArgs (Nothing, Nothing) bundleArgs)
+    "psc-package2nix" : _ -> pscPackage2Nix
     "help" : _ -> help
     [] -> help
     _ -> do
@@ -165,3 +247,62 @@ usageText = "\
 \    Uses Test.Main by default.\n\
 \  bundle [-m Main -o index.js]\n\
 \    Bundle the project, with optional main and target path arguments."
+
+-- Nix Derivation String
+newtype Derivation = Derivation {unDerivation :: String}
+newtype Set = Set String
+newtype Source = Source String
+newtype Dep = Dep String deriving (Eq, Ord, Show)
+newtype Version = Version String
+newtype Repo = Repo String
+newtype Hash = Hash String
+
+mkDepDerivation :: Dep -> Version -> Repo -> Hash -> Derivation
+mkDepDerivation (Dep dep) (Version version) (Repo repo) (Hash hash) = Derivation $ "\
+\    " <> quote dep <> " = pkgs.stdenv.mkDerivation {\n\
+\      name = " <> quote dep <> ";\n\
+\      version = " <> quote version <> ";\n\
+\      src = pkgs.fetchgit {\n\
+\        url = " <> quote repo <> ";\n\
+\        rev = " <> quote version <> ";\n\
+\        sha256 = " <> quote hash <> ";\n\
+\      };\n\
+\      phases = \"installPhase\";\n\
+\      installPhase = \"ln -s $src $out\";\n\
+\    };"
+
+mkPackagesExpr :: [Derivation] -> Set -> Source -> String
+mkPackagesExpr drvs (Set set) (Source source)
+  | derivations <- List.intercalate "\n\n" $ unDerivation <$> drvs = "\
+\# This file was generated by Psc-Package2Nix\n\
+\# You will not want to edit this file.\n\
+\# To change the contents of this file, first fork Psc-Package2Nix\n\
+\# And edit the $file_template\n\
+\\n\
+\{ pkgs ? import <nixpkgs> {} }:\n\
+\\n\
+\let\n\
+\  inputs = {\n\n\
+\" <> derivations <> "\n\
+\};\n\
+\\n\
+\in {\n\
+\  inherit inputs;\n\
+\\n\
+\  set = " <> quote set <> ";\n\
+\  source = " <> quote source <> ";\n\
+\}\n"
+
+mkPackageSetExpr :: Set -> Source -> Hash -> String
+mkPackageSetExpr (Set set) (Source source) (Hash hash) = "\
+\(import <nixpkgs> {}).fetchgit {\n\
+\    url = " <> quote source <> ";\n\
+\    rev = " <> quote set <> ";\n\
+\    sha256 = " <> quote hash <> ";\n\
+\}"
+
+pscPackage2NixDir :: String
+pscPackage2NixDir = ".psc-package2nix"
+
+pscPackageJson :: String
+pscPackageJson = "psc-package.json"
