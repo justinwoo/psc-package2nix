@@ -1,13 +1,21 @@
 { pkgs ? import <nixpkgs> {} }:
 
-pkgs.stdenv.mkDerivation {
+let
+  ghc = pkgs.ghc.withPackages (x: [
+    (pkgs.haskell.lib.overrideCabal x.async-pool (old: {
+      jailbreak = true;
+      doCheck = false;
+    }))
+  ]);
+
+in pkgs.stdenv.mkDerivation {
   name = "psc-package2nix";
 
   src = ./.;
 
   buildInputs = [
     pkgs.makeWrapper
-    (pkgs.ghc.withPackages (x: [ x.async-pool ]))
+    ghc
   ];
 
   installPhase = ''
@@ -15,7 +23,7 @@ pkgs.stdenv.mkDerivation {
 
     install -D -m555 -t $out/bin psc-package2nix
     wrapProgram $out/bin/psc-package2nix \
-      --prefix PP2N_SRC : $src \
+      --prefix PP2N : $out/bin/pp2n \
 
     ghc -o pp2n pp2n.hs
     install -D -m555 -t $out/bin pp2n
