@@ -1,6 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
+  psc-package2nix = import ../default.nix {};
   easy-ps = import (pkgs.fetchFromGitHub {
     owner = "justinwoo";
     repo = "easy-purescript-nix";
@@ -12,6 +13,6 @@ in pkgs.stdenv.mkDerivation {
   name = "psc-package2nix-project";
   buildInputs = [
     easy-ps.inputs.purs
-    easy-ps.inputs.psc-package2nix
+    psc-package2nix
   ];
 }
