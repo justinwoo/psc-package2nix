@@ -6,8 +6,8 @@ let
     owner = "justinwoo";
     repo = "psc-package2nix";
     # you should make sure to use nix-prefetch-github to get the latest rev and sha!
-    rev = "a99092bfe9c32e0df9a826ccc509bd02b7b192c1";
-    sha256 = "0296jb8b47zxnnhrjp4ky1mj835jff59sx4przix652mclsy13r3";
+    rev = "4135235e9577bb130e23b33931a2e228a34fcd34";
+    sha256 = "087641lyvpwvd51qc3zgfk8nb4n7fhp0cmg4f2f7rvm9k0ha456v";
   }) {};
 
 in
