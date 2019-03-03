@@ -7,7 +7,7 @@ _pp2n() {
   then
     cur="${COMP_WORDS[COMP_CWORD]}"
     opts="$(ls "$PROJECTS")"
-    opts="install build sources help bower-install"
+    opts="install build sources help bower-install test bundle psc-package2nix"
 
     # shellcheck disable=2207
     COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
