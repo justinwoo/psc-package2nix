@@ -14,6 +14,7 @@ newtype PP2N_SRC = PP2N_SRC String
 newtype Globs = Globs [String]
 newtype ModuleName = ModuleName String
 newtype OutFilePath = OutFilePath String
+newtype PscPackageJsonPath = PscPackageJsonPath String
 type BundleArgs = (Maybe ModuleName, Maybe OutFilePath)
 
 quote :: String -> String
@@ -54,7 +55,7 @@ readSystem cmd args = do
 install :: PP2N_SRC -> [String] -> IO ()
 install pp2nSrc extraArgs = do
   let derivation = mkInstallDepsDerivation pp2nSrc
-  callSystem "psc-package2nix" ["set-only"]
+  _ <- ensurePscPackageSet
   callSystem "nix-shell" $ ["-E", derivation, "--run", "'exit'"] ++ extraArgs
 
 getGlobs :: PP2N_SRC -> IO Globs
@@ -115,6 +116,7 @@ bowerInstall pp2nSrc = do
   let derivation = mkBowerInstallDepsDerivation pp2nSrc
   callSystem "nix-shell" ["-E", derivation, "--run", "'exit'"]
 
+ensurePscPackageSet :: IO (PscPackageJsonPath, Set, Source)
 ensurePscPackageSet = do
   sourceName <- readSystem "jq" [".source", pscPackageJson, "-r"]
   setName <- readSystem "jq" [".set", pscPackageJson, "-r"]
@@ -136,7 +138,7 @@ ensurePscPackageSet = do
     callSystem "nix-build" ["-E", expr, "-o", packageSetDir]
     putStrLn $ "built package set to " <> packageSetDir
 
-  pure (packagesJson, set, source)
+  pure (PscPackageJsonPath packagesJson, set, source)
 
 pscPackage2Nix :: IO ()
 pscPackage2Nix = do
@@ -160,15 +162,15 @@ pscPackage2Nix = do
       set' <- f x set
       loop f set' xs
 
-    getDeps :: FilePath -> Dep -> Set.Set Dep -> IO (Set.Set Dep)
-    getDeps packagesJson dep@(Dep depName) visited =
+    getDeps :: PscPackageJsonPath -> Dep -> Set.Set Dep -> IO (Set.Set Dep)
+    getDeps packagesJsonPath@(PscPackageJsonPath packagesJson) dep@(Dep depName) visited =
       if Set.member dep visited then pure visited else do
         let visited' = Set.insert dep visited
         transitive <- readBash $ "jq '." <> quote depName <> ".dependencies | values[]' " <> packagesJson <> " -r"
-        loop (getDeps packagesJson) visited' (Dep <$> List.lines transitive)
+        loop (getDeps packagesJsonPath) visited' (Dep <$> List.lines transitive)
 
-    getDerivation :: FilePath -> Dep -> IO Derivation
-    getDerivation packagesJson dep@(Dep depName) = do
+    getDerivation :: PscPackageJsonPath -> Dep -> IO Derivation
+    getDerivation (PscPackageJsonPath packagesJson) dep@(Dep depName) = do
       let depNameQuoted = quote depName
 
       version <- readBash $ "jq '." <> depNameQuoted <> ".version' -r " <> packagesJson
