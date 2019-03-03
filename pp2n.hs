@@ -115,9 +115,7 @@ bowerInstall pp2nSrc = do
   let derivation = mkBowerInstallDepsDerivation pp2nSrc
   callSystem "nix-shell" ["-E", derivation, "--run", "'exit'"]
 
-pscPackage2Nix :: IO ()
-pscPackage2Nix = do
-  callBash $ "mkdir -p " <> pscPackage2NixDir
+ensurePscPackageSet = do
   sourceName <- readSystem "jq" [".source", pscPackageJson, "-r"]
   setName <- readSystem "jq" [".set", pscPackageJson, "-r"]
   let set = Set setName
@@ -137,6 +135,14 @@ pscPackage2Nix = do
     let expr = mkPackageSetExpr set source (Hash sha)
     callSystem "nix-build" ["-E", expr, "-o", packageSetDir]
     putStrLn $ "built package set to " <> packageSetDir
+
+  pure (packagesJson, set, source)
+
+pscPackage2Nix :: IO ()
+pscPackage2Nix = do
+  (packagesJson, set, source) <- ensurePscPackageSet
+
+  callBash $ "mkdir -p " <> pscPackage2NixDir
 
   depends <- readBash $ "jq '.depends | values[]' -r " <> pscPackageJson
   let directDeps = Dep <$> List.lines depends
@@ -234,6 +240,8 @@ usageText = "\
 \  Usage: pp2n (install | build | sources | help | bower-install)\n\
 \\n\
 \Available commands:\n\
+\  psc-package2nix\n\
+\    Generate a nix expression of packages from psc-package.json\n\
 \  install [passthrough args for nix-shell]\n\
 \    Install dependencies from packages.nix in Psc-Package style\n\
 \  build [passthrough args for purs]\n\
