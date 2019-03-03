@@ -25,7 +25,7 @@ in pkgs.stdenv.mkDerivation {
     wrapProgram $out/bin/psc-package2nix \
       --prefix PP2N : $out/bin/pp2n \
 
-    ghc -o pp2n pp2n.hs
+    ghc -threaded -rtsopts -with-rtsopts="-N" -o pp2n pp2n.hs
     install -D -m555 -t $out/bin pp2n
     wrapProgram $out/bin/pp2n \
       --prefix PP2N_SRC : $src \
