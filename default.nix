@@ -33,6 +33,7 @@ in pkgs.stdenv.mkDerivation {
         pkgs.coreutils
         pkgs.jq
         pkgs.nix
+        pkgs.nix-prefetch-git
       ]}
 
     mkdir -p $out/etc/bash_completion.d/
