@@ -1,9 +1,10 @@
 default:
-	nix-shell pp2n.nix --run 'make pp2n'
+	nix-shell --run 'make pp2n'
 
 pp2n:
 	pp2n
 	pp2n help
+	pp2n psc-package2nix
 	pp2n sources
 	pp2n install
 	pp2n build

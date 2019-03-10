@@ -506,4 +506,5 @@ in {
 
   set = "30112018";
   source = "https://github.com/justinwoo/spacchetti.git";
+  sha256 = "1d3x15qr4iw1gsswx6qhmmh1lmfh12fwdfi94gkkxiihnwimzfdm";
 }
