@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+nix-build
+node -e "require('./result/output/Main').main()"
+echo "Success"
