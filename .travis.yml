@@ -8,3 +8,5 @@ script:
   - make
   - cd ../test-pp2n
   - make
+  - cd ../test-build
+  - ./runTests

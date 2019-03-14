@@ -14,7 +14,11 @@ I (Justin) gave a talk about Psc-Package2Nix: <https://speakerdeck.com/justinwoo
 
 There is now a simple executable `pp2n` that this project comes with, which you can use to not have to manage as many parts of usage manually. See the [test-pp2n](./test-pp2n) setup to see how this works directly.
 
-See the [test](./test) setup for a regular Psc-Package project, and the [test-bower-style](./test-bower-style) setup for a Bower-like setup shimming Bower dependencies.
+See the [test](./test) setup for a regular Psc-Package project, and the [test-bower-style](./test-bower-style) setup for a Bower-like setup shimming Bower dependencies. See [test-build](./test-build) for a setup that is just using nix-build.
+
+## I just want to see code!
+
+See [test-build](./test-build).
 
 ## Usage example
 
