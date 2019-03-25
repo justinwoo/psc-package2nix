@@ -1,11 +1,16 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  ghc = pkgs.ghc.withPackages (x: [
-    (pkgs.haskell.lib.overrideCabal x.async-pool (old: {
+  ghc = pkgs.ghc.withPackages (x:
+  let
+    async-pool = (pkgs.haskell.lib.overrideCabal x.async-pool (old: {
       jailbreak = true;
       doCheck = false;
-    }))
+    })).overrideAttrs(attrs: {
+      broken = false;
+    });
+  in [
+    async-pool
   ]);
 
 in pkgs.stdenv.mkDerivation {
