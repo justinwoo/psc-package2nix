@@ -3,10 +3,9 @@
 let
   ghc = pkgs.ghc.withPackages (x:
   let
-    async-pool = (pkgs.haskell.lib.overrideCabal x.async-pool (old: {
+    async-pool = pkgs.haskell.lib.overrideCabal x.async-pool (old: {
       jailbreak = true;
       doCheck = false;
-    })).overrideAttrs(attrs: {
       broken = false;
     });
   in [
