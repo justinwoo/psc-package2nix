@@ -141,6 +141,10 @@ ensurePscPackageSet = do
     writeFile packageSetHashFilePath sha
 
     let expr = mkPackageSetExpr set source (Hash sha)
+    existing <- Dir.doesPathExist packageSetDir
+    if existing
+      then do Dir.removeDirectory packageSetDir
+      else pure ()
     callSystem "nix-build" ["-E", expr, "-o", packageSetDir]
     putStrLn $ "built package set to " <> packageSetDir
 
