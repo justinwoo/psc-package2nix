@@ -5,6 +5,7 @@ pp2n:
 	pp2n
 	pp2n help
 	pp2n psc-package2nix
+	pp2n psc-package2nix # can be run twice
 	pp2n sources
 	pp2n install
 	pp2n build
