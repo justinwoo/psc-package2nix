@@ -6,8 +6,8 @@ let
   easy-ps = import (pkgs.fetchFromGitHub {
     owner = "justinwoo";
     repo = "easy-purescript-nix";
-    rev = "1e5698a1cba964df78f95a70bf262b9c097cd224";
-    sha256 = "1ay2qfkd7fiqjp32vs5fg2d6zfbjxxy5hhpb7qm27ahpfxmqx43d";
+    rev = "87c49e20c721bbc160216f6fd0f0806818e0b760";
+    sha256 = "0j8knp9h3gbcl5vcd7yvink07yy482l24ix4m6yinfbi4bpmjsy5";
   });
 
   mkCompileDirect = import "${psc-package2nix.src}/nix/mkCompileDirect.nix";
