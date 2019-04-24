@@ -1,0 +1,9 @@
+{
+  "name": "test-spago",
+  "set": "local",
+  "source": "",
+  "depends": [
+    "console",
+    "effect"
+  ]
+}
