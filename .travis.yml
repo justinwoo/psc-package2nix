@@ -1,14 +1,30 @@
 sudo: required
 dist: trusty
 language: nix
-script:
-  - cd test
-  - make
-  - cd ../test-bower-style
-  - make
-  - cd ../test-pp2n
-  - make
-  - cd ../test-spago
-  - make
-  - cd ../test-build
-  - ./runTests
+jobs:
+  include:
+
+    - stage: test
+      script:
+        - cd test
+        - make
+
+      - stage: test
+      script:
+        - cd test-bower-style
+        - make
+
+      - stage: test
+      script:
+        - cd test-pp2n
+        - make
+
+      - stage: test
+      script:
+        - cd test-spago
+        - make
+
+      - stage: test
+      script:
+        - cd test-build
+        - ./runTests
