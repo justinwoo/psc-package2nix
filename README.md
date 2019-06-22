@@ -8,6 +8,10 @@ Read the blog post about this project here: <https://qiita.com/kimagure/items/85
 
 I (Justin) gave a talk about Psc-Package2Nix in the Helsinki Haskell meetup a while ago: <https://speakerdeck.com/justinwoo/nix-ify-your-psc-package-dependencies>. The talk is a little bit out of date but the core ideas are the same.
 
+## Spago users
+
+Spago users should look at this project: https://twitter.com/jusrin00/status/1142419083255787526
+
 ## Show me the code!
 
 See [test-build](./test-build). However, this will in many ways not be what you want for development, so you might end up with using `pp2n install; pp2n build` in development.
