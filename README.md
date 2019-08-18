@@ -2,6 +2,12 @@
 
 [![Build Status](https://travis-ci.com/justinwoo/psc-package2nix.svg?branch=master)](https://travis-ci.com/justinwoo/psc-package2nix)
 
+## Warning
+
+You probably will want to use <https://github.com/spacchetti/spago> and <https://github.com/justinwoo/spago2nix> instead.
+
+-----
+
 A tool to generate a Nix expression from Psc-Package configuration. *You could also probably use Spago by using `spago psc-package-insdhall`.* Works by prefetching Git SHAs of the dependencies you depend on.
 
 Read the blog post about this project here: <https://qiita.com/kimagure/items/85a64437f9af78398638>. There's also a post about this whole setup (going from Bower): <https://qiita.com/kimagure/items/aec640d0047d08d2ce90>.
