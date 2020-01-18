@@ -2,6 +2,10 @@
 
 [![Build Status](https://travis-ci.com/justinwoo/psc-package2nix.svg?branch=master)](https://travis-ci.com/justinwoo/psc-package2nix)
 
+## Double Warning
+
+If you actually want to use this, you probably should look at <https://github.com/justinwoo/soba>. You can refer to the notes here for more literature.
+
 ## Warning
 
 You probably will want to use <https://github.com/spacchetti/spago> and <https://github.com/justinwoo/spago2nix> instead.
